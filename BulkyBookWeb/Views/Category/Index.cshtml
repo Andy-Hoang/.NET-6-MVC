@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Category>    //the model that passed from CategoryController
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Category Index created by VS</h1>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)      //@ to tell this is the C# code | Model: is the Model that passed on the top @model of this file
+        {
+            <tr>
+                <td with="50%">
+                    @obj.Name
+                </td>
+                <td with="30%">
+                    @obj.DisplayOrder
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
