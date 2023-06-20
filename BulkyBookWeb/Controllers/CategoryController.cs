@@ -31,9 +31,19 @@ namespace BulkyBookWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            _db.Categories.Add(obj);
-            _db.SaveChanges();      //actual action made to Database
-            return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                //key 'name' will bind to show error inside 'Name' prop of Category
+                ModelState.TryAddModelError("name", "DisplayOrder cannot exactly match the Name.");
+            }
+            if (ModelState.IsValid)     //server side validation
+            {
+                _db.Categories.Add(obj);
+                _db.SaveChanges();      //actual action made to Database
+                return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
+            }
+            return View(obj);       //pass the current 'obj' to see the current input values caused error
+            
         }
     }
 }
