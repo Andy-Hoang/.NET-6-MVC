@@ -25,3 +25,11 @@
 	</div>
 </form>
 
+<!-- Because _ValidationScriptsPartial.cshtml includes 'script' so need to add it inside 'Scripts' section -->
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
+
+
