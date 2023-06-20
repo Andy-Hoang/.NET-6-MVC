@@ -1,9 +1,21 @@
-﻿@model IEnumerable<Category>    //the model that passed from CategoryController
+﻿@model IEnumerable<Category>    //the 'model' that passed in View() from CategoryController, with type: 'IEnumerable<Category>'
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Category Index created by VS</h1>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Create New Category
+            </a>
+        </div>
+    </div>
+</div>
+<br />
 
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>
@@ -20,10 +32,10 @@
         @foreach(var obj in Model)      //@ to tell this is the C# code | Model: is the Model that passed on the top @model of this file
         {
             <tr>
-                <td with="50%">
+                <td width="50%">
                     @obj.Name
                 </td>
-                <td with="30%">
+                <td width="30%">
                     @obj.DisplayOrder
                 </td>
             </tr>
