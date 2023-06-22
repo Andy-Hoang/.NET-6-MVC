@@ -43,7 +43,7 @@ namespace BulkyBookWeb.Controllers
                 TempData["Success"] = "Category created successfully"; 
                 return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
             }
-            return View(obj);       //pass the current 'obj' to see the current input values caused error
+            return View(obj);       //pass the current 'obj' to see the current input values causing error (if in case of error)
             
         }
 
@@ -105,7 +105,10 @@ namespace BulkyBookWeb.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        // Can pass here both Category obj or id
+        // If pass obj: will now to trigger Delete( obj ) for POST instead of Delete (int) for GET
+        // If pass id: func will be the same with Delete(int? id) for Get -> so have to change named to DeletePost()
+        public IActionResult DeletePost(int? id)        //can pass here both Category obj or id | Pass id to mak
         {
             var categoryFromDB = _db.Categories.Find(id);
             if (categoryFromDB == null)

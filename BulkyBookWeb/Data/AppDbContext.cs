@@ -5,7 +5,7 @@ namespace BulkyBookWeb.Data
 {
     public class AppDbContext: DbContext
     {
-        //pass "options" -which are passed into subclass AppDbContext- into the base class DbContext by using ":base(options)"
+        // base(options): pass "options" -which are passed into subclass AppDbContext- into the base class DbContext by using ":base(options)"
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
