@@ -11,6 +11,5 @@ namespace BulkyBook.DataAccess.Repository.IRepository
 	{
 		// define the extension where IRepository does not have
 		void Update(Category obj);		// Why Update(): different types has different Update() implementation
-		void Save();
 	}
 }

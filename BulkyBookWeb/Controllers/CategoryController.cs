@@ -8,16 +8,16 @@ namespace BulkyBook.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
+        private readonly IUnitOfWork _unitOfWork;
         //inject dependency in the constructor: categoryRepo already registered in Container
-        public CategoryController(ICategoryRepository categoryRepo)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepo = categoryRepo;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> CategoryList = _categoryRepo.GetAll();
+            IEnumerable<Category> CategoryList = _unitOfWork.CategoryRepo.GetAll();
             return View(CategoryList);
         }
 
@@ -39,8 +39,8 @@ namespace BulkyBook.Controllers
             }
             if (ModelState.IsValid)     //server side validation
             {
-                _categoryRepo.Add(obj);
-                _categoryRepo.Save();      //actual action made to Database
+                _unitOfWork.CategoryRepo.Add(obj);
+                _unitOfWork.Save();      //actual action made to Database
                 TempData["Success"] = "Category created successfully"; 
                 return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
             }
@@ -56,7 +56,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
 
-            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
+            var categoryFromDB = _unitOfWork.CategoryRepo.Get(c => c.Id == id);
             if(categoryFromDB == null)
             {
                 return NotFound();
@@ -77,8 +77,8 @@ namespace BulkyBook.Controllers
             }
             if (ModelState.IsValid)
             {
-                _categoryRepo.Update(obj);
-                _categoryRepo.Save();
+                _unitOfWork.CategoryRepo.Update(obj);
+                _unitOfWork.Save();
                 TempData["Success"] = "Category edited successfully";
                 return RedirectToAction("Index");       
             }
@@ -94,7 +94,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
 
-            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
+            var categoryFromDB = _unitOfWork.CategoryRepo.Get(c => c.Id == id);
             if (categoryFromDB == null)
             {
                 return NotFound();
@@ -111,14 +111,14 @@ namespace BulkyBook.Controllers
         // If pass id: func will be the same with Delete(int? id) for Get -> so have to change named to DeletePost()
         public IActionResult DeletePost(int? id)        //can pass here both Category obj or id | Pass id to mak
         {
-            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
+            var categoryFromDB = _unitOfWork.CategoryRepo.Get(c => c.Id == id);
             if (categoryFromDB == null)
             {
                 return NotFound();
             }
 
-            _categoryRepo.Remove(categoryFromDB);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
-            _categoryRepo.Save();
+            _unitOfWork.CategoryRepo.Remove(categoryFromDB);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
+            _unitOfWork.Save();
             TempData["Success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
