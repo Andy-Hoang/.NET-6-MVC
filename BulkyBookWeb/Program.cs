@@ -36,6 +36,6 @@ app.UseAuthorization();     // then 2nd Midleware, Authorization
 
 app.MapControllerRoute(
     name: "default",        // set the default url: use Home controller, with action Index
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
