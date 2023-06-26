@@ -1,4 +1,6 @@
 ﻿using BulkyBook.DataAccess.Data;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,17 +8,16 @@ namespace BulkyBook.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _db;
-        //inject dependency in the constructor
-        // AppDbContext already added in the Container. so the object "db" with all implementation ready to use.
-        public CategoryController(AppDbContext db)
+        private readonly ICategoryRepository _categoryRepo;
+        //inject dependency in the constructor: categoryRepo already registered in Container
+        public CategoryController(ICategoryRepository categoryRepo)
         {
-            _db = db;
+            _categoryRepo = categoryRepo;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> CategoryList = _db.Categories;
+            IEnumerable<Category> CategoryList = _categoryRepo.GetAll();
             return View(CategoryList);
         }
 
@@ -38,8 +39,8 @@ namespace BulkyBook.Controllers
             }
             if (ModelState.IsValid)     //server side validation
             {
-                _db.Categories.Add(obj);
-                _db.SaveChanges();      //actual action made to Database
+                _categoryRepo.Add(obj);
+                _categoryRepo.Save();      //actual action made to Database
                 TempData["Success"] = "Category created successfully"; 
                 return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
             }
@@ -55,7 +56,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
 
-            var categoryFromDB = _db.Categories.Find(id);
+            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
             if(categoryFromDB == null)
             {
                 return NotFound();
@@ -76,8 +77,8 @@ namespace BulkyBook.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(obj);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
-                _db.SaveChanges();
+                _categoryRepo.Update(obj);
+                _categoryRepo.Save();
                 TempData["Success"] = "Category edited successfully";
                 return RedirectToAction("Index");       
             }
@@ -93,7 +94,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
 
-            var categoryFromDB = _db.Categories.Find(id);
+            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
             if (categoryFromDB == null)
             {
                 return NotFound();
@@ -110,14 +111,14 @@ namespace BulkyBook.Controllers
         // If pass id: func will be the same with Delete(int? id) for Get -> so have to change named to DeletePost()
         public IActionResult DeletePost(int? id)        //can pass here both Category obj or id | Pass id to mak
         {
-            var categoryFromDB = _db.Categories.Find(id);
+            var categoryFromDB = _categoryRepo.Get(c => c.Id == id);
             if (categoryFromDB == null)
             {
                 return NotFound();
             }
 
-            _db.Categories.Remove(categoryFromDB);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
-            _db.SaveChanges();
+            _categoryRepo.Remove(categoryFromDB);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
+            _categoryRepo.Save();
             TempData["Success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
