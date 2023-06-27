@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,5 +38,9 @@ namespace BulkyBook.Models
 		[Display(Name = "Price for 100+")]
 		[Range(1, 1000, ErrorMessage = "Price must be within 1-1000!")]
 		public double Price100 { get; set; }
+
+		public int CategoryId { get; set; }			// column to actually store FK
+        [ForeignKey("CategoryId")]                  // indicate use the foreignkey FK 'CategoryId' for the table 'Category'
+		public Category Category { get; set; }		// this is a Navigation Prop to table "Category"
 	}
 }

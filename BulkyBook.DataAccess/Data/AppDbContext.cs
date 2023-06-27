@@ -33,7 +33,8 @@ namespace BulkyBook.DataAccess.Data
                     ListPrice = 99,
                     Price = 90,
                     Price50 = 85,
-                    Price100 = 80
+                    Price100 = 80,
+                    CategoryId = 1,
                 },
                 new Product
                 {
@@ -45,7 +46,8 @@ namespace BulkyBook.DataAccess.Data
                     ListPrice = 66,
                     Price = 60,
                     Price50 = 55,
-                    Price100 = 50
+                    Price100 = 50,
+                    CategoryId = 2,
                 },
                 new Product
                 {
@@ -57,7 +59,8 @@ namespace BulkyBook.DataAccess.Data
                     ListPrice = 88,
                     Price = 80,
                     Price50 = 75,
-                    Price100 = 70
+                    Price100 = 70,
+                    CategoryId = 3,
                 }
                 );
         }
