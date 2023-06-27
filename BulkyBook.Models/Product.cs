@@ -42,5 +42,7 @@ namespace BulkyBook.Models
 		public int CategoryId { get; set; }			// column to actually store FK
         [ForeignKey("CategoryId")]                  // indicate use the foreignkey FK 'CategoryId' for the table 'Category'
 		public Category Category { get; set; }		// this is a Navigation Prop to table "Category"
+
+		public string ImageUrl { get; set; }
 	}
 }

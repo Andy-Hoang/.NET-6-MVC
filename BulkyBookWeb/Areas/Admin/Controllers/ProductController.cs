@@ -3,6 +3,7 @@ using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -25,6 +26,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		//Get
 		public IActionResult Create()
 		{
+			IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepo.GetAll()
+				.Select(c => new SelectListItem             // EF Projection: convert Category type into SelectListItem type
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				});
+            //ViewBag.CategoryList = CategoryList;
+            ViewData["CategoryList"] = CategoryList;
 			return View();
 		}
 
