@@ -1,15 +1,16 @@
 ﻿@model ProductVM     //As there is NO model passed from Controller to View(), we can bind whatever model we want here inside View()
 							<!-- How does it know what is Category: becaue of _ViewImports.cshtml -->
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">		<!-- enctype="multipart/form-data": to include others such as File/ Email... -->
 	<div class="border p-3 my-5">
 		<div class="row pb-2">
-			<h2 class="text-primary"> Create Product</h2>
+			<h2 class="text-primary"> @(Model.Product.Id!=0 ? "Update" : "Create") Product</h2>
 			<hr />
 		</div>
 		
 		<div asp-validation-summary="All"></div>
 		
+		<input asp-for="Product.Id" hidden />			<!-- to make Form Data contain 'Id' when passed to POST method-->
 		<div class="mb-3">
 			<label asp-for="Product.Title"></label>		<!-- will bind the Prop of 'Product' model using 'asp-for' -->
 			<input asp-for="Product.Title" class="form-control" />
@@ -59,9 +60,16 @@
 		</div>
 		<div class="mb-3">
 			<label asp-for="Product.ImageUrl"></label>		
-			<input asp-for="Product.ImageUrl" class="form-control" /> 
+			<input type="file" class="form-control" />		<!-- type="file" -->
 		</div>
-		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		@if (Model.Product.Id!=0) 
+		{
+			<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+		}
+		else
+		{
+			<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		}
 		<a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">
 			Back to List
 		</a>

@@ -25,7 +25,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		}
 
 		//Get
-		public IActionResult Create()
+		public IActionResult Upsert(int? id)
 		{
 			ProductVM productVM = new()
 			{
@@ -36,13 +36,24 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 				}),
 				Product = new Product()
 			};
-			return View(productVM);
+			if (id == null || id == 0)
+            {
+				// create
+				return View(productVM);
+			}
+            else
+            {
+				// update
+				productVM.Product = _unitOfWork.ProductRepo.Get(p => p.Id == id);
+				return View(productVM);
+			}
+			
 		}
 
 		//POST
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create(ProductVM productVM)
+		public IActionResult Upsert(ProductVM productVM, IFormFile? file)
 		{
 			if (ModelState.IsValid)     //server side validation
 			{
@@ -61,43 +72,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 				});
 				return View(productVM);       //pass the current 'obj' to see the current input values causing error (if in case of error)
 			}
-		}
-
-		//Get
-		public IActionResult Edit(int? id)
-		{
-			if (id == null || id == 0)
-			{
-				return NotFound();
-			}
-
-			var productFromDB = _unitOfWork.ProductRepo.Get(c => c.Id == id);
-			if (productFromDB == null)
-			{
-				return NotFound();
-			}
-
-			return View(productFromDB);
-		}
-
-		//POST
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Edit(Product obj)
-		{
-			if (obj.Title == obj.ListPrice.ToString())
-			{
-				//key 'title' will bind to show error inside 'Title' prop of Product
-				ModelState.TryAddModelError("title", "ListPrice cannot exactly match the Title.");
-			}
-			if (ModelState.IsValid)
-			{
-				_unitOfWork.ProductRepo.Update(obj);
-				_unitOfWork.Save();
-				TempData["Success"] = "Product edited successfully";
-				return RedirectToAction("Index");
-			}
-			return View(obj);
 		}
 
 		//Get
