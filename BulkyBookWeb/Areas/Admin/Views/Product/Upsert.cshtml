@@ -60,7 +60,7 @@
 		</div>
 		<div class="mb-3">
 			<label asp-for="Product.ImageUrl"></label>		
-			<input type="file" class="form-control" />		<!-- type="file" -->
+			<input type="file" name="file" class="form-control" />		<!-- type="file" | name="whatever parameter name to pass in Upsert()" -->
 		</div>
 		@if (Model.Product.Id!=0) 
 		{
@@ -79,6 +79,13 @@
 
 <!-- Because _ValidationScriptsPartial.cshtml includes 'script' so need to add it inside 'Scripts' section -->
 @section Scripts {
+	<script>
+		tinymce.init({
+		  selector: 'textarea',
+		  plugins: 'anchor autolink charmap codesample emoticons link lists table visualblocks wordcount tinymcespellchecker autocorrect',
+		  toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent '
+		});
+	</script>
 	@{
 		<partial name="_ValidationScriptsPartial" />
 	}

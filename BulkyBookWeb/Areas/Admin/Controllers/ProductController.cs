@@ -12,13 +12,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IWebHostEnvironment _webHostEnvironment;
 		//inject dependency in the constructor: unitOfWork already registered in Container
-		public ProductController(IUnitOfWork unitOfWork)
-		{
-			_unitOfWork = unitOfWork;
-		}
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        {
+            _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
+        }
 
-		public IActionResult Index()
+        public IActionResult Index()
 		{
 			IEnumerable<Product> ProductList = _unitOfWork.ProductRepo.GetAll();
 			return View(ProductList);
@@ -57,6 +59,20 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		{
 			if (ModelState.IsValid)     //server side validation
 			{
+				string wwwRootPath = _webHostEnvironment.WebRootPath;		//get the path of wwwroot folder
+				if(file != null)
+                {
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);     //create a new unique filename but keep extension
+					string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+					using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+						file.CopyTo(fileStream);
+                    }
+
+					productVM.Product.ImageUrl = @"\images\product\" + fileName;
+                }
+
 				_unitOfWork.ProductRepo.Add(productVM.Product);
 				_unitOfWork.Save();      //actual action made to Database
 				TempData["Success"] = "Product created successfully";
