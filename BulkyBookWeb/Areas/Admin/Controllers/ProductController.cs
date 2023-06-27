@@ -2,6 +2,7 @@
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -26,31 +27,40 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		//Get
 		public IActionResult Create()
 		{
-			IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepo.GetAll()
-				.Select(c => new SelectListItem             // EF Projection: convert Category type into SelectListItem type
+			ProductVM productVM = new()
+			{
+				CategoryList = _unitOfWork.CategoryRepo.GetAll().Select(c => new SelectListItem             // EF Projection: convert Category type into SelectListItem type
 				{
 					Text = c.Name,
 					Value = c.Id.ToString()
-				});
-            //ViewBag.CategoryList = CategoryList;
-            ViewData["CategoryList"] = CategoryList;
-			return View();
+				}),
+				Product = new Product()
+			};
+			return View(productVM);
 		}
 
 		//POST
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create(Product obj)
+		public IActionResult Create(ProductVM productVM)
 		{
 			if (ModelState.IsValid)     //server side validation
 			{
-				_unitOfWork.ProductRepo.Add(obj);
+				_unitOfWork.ProductRepo.Add(productVM.Product);
 				_unitOfWork.Save();      //actual action made to Database
 				TempData["Success"] = "Product created successfully";
 				return RedirectToAction("Index");       // if no Controller name, then default is the current Controller
 			}
-			return View(obj);       //pass the current 'obj' to see the current input values causing error (if in case of error)
-
+            else 
+			{
+				// the productVM passed from the the Create Form will have CategoryList = null, so need to generate value again 
+				productVM.CategoryList = _unitOfWork.CategoryRepo.GetAll().Select(c => new SelectListItem             // EF Projection: convert Category type into SelectListItem type
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				});
+				return View(productVM);       //pass the current 'obj' to see the current input values causing error (if in case of error)
+			}
 		}
 
 		//Get

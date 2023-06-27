@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,8 +42,9 @@ namespace BulkyBook.Models
 
 		public int CategoryId { get; set; }			// column to actually store FK
         [ForeignKey("CategoryId")]                  // indicate use the foreignkey FK 'CategoryId' for the table 'Category'
-		public Category Category { get; set; }		// this is a Navigation Prop to table "Category"
-
+		[ValidateNever]
+		public Category Category { get; set; }      // this is a Navigation Prop to table "Category"
+		[ValidateNever]
 		public string ImageUrl { get; set; }
 	}
 }
