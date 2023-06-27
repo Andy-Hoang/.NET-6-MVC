@@ -35,6 +35,7 @@ namespace BulkyBook.DataAccess.Data
                     Price50 = 85,
                     Price100 = 80,
                     CategoryId = 1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -48,6 +49,7 @@ namespace BulkyBook.DataAccess.Data
                     Price50 = 55,
                     Price100 = 50,
                     CategoryId = 2,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -61,6 +63,7 @@ namespace BulkyBook.DataAccess.Data
                     Price50 = 75,
                     Price100 = 70,
                     CategoryId = 3,
+                    ImageUrl = ""
                 }
                 );
         }
