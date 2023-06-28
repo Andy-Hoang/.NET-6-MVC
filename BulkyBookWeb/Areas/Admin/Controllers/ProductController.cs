@@ -117,6 +117,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 			return Json(new {data = ProductList });			// return Json() instead of return View() 
 		}
 
+        [HttpDelete]
 		public IActionResult Delete(int? id)        //can pass here both Product obj or id | Pass id to mak
 		{
 			var productFromDB = _unitOfWork.ProductRepo.Get(c => c.Id == id);
