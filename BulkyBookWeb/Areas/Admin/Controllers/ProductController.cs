@@ -109,41 +109,35 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 			}
 		}
 
-		//Get
-		public IActionResult Delete(int? id)
+        #region API calls
+        [HttpGet]
+		public IActionResult GetAll()
 		{
-			if (id == null || id == 0)
-			{
-				return NotFound();
-			}
-
-			var productFromDB = _unitOfWork.ProductRepo.Get(c => c.Id == id);
-			if (productFromDB == null)
-			{
-				return NotFound();
-			}
-
-			return View(productFromDB);
+			IEnumerable<Product> ProductList = _unitOfWork.ProductRepo.GetAll(includeProps: "Category");
+			return Json(new {data = ProductList });			// return Json() instead of return View() 
 		}
 
-		//POST
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		// Can pass here both Product obj or id
-		// If pass obj: will now to trigger Delete( obj ) for POST instead of Delete (int) for GET
-		// If pass id: func will be the same with Delete(int? id) for Get -> so have to change named to DeletePost()
-		public IActionResult DeletePost(int? id)        //can pass here both Product obj or id | Pass id to mak
+		public IActionResult Delete(int? id)        //can pass here both Product obj or id | Pass id to mak
 		{
 			var productFromDB = _unitOfWork.ProductRepo.Get(c => c.Id == id);
 			if (productFromDB == null)
 			{
-				return NotFound();
+				return Json(new {success = false, message = "Error while deleting"});
+			}
+			
+			var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productFromDB.ImageUrl.TrimStart('\\'));
+
+			if (System.IO.File.Exists(oldImagePath))
+			{
+				System.IO.File.Delete(oldImagePath);
 			}
 
 			_unitOfWork.ProductRepo.Remove(productFromDB);     //Entity Framework does all the work: find the 'obj' by id in DB, look for what props changed, and update
 			_unitOfWork.Save();
-			TempData["Success"] = "Product deleted successfully";
-			return RedirectToAction("Index");
+
+			return Json(new { success = true, message = "Delete Successful" });
 		}
+
+		#endregion API calls
 	}
 }
