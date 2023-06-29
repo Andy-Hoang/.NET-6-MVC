@@ -13,7 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+// Services for Identity Razor pages
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -37,8 +39,9 @@ app.UseStaticFiles();
 
 app.UseRouting();           //1st Middleware to go to, Routing (order in the pipeline matters)
 app.UseAuthentication();    // then 2nd Midleware, Authentication/ Authorization
-app.UseAuthorization();     
+app.UseAuthorization();
 
+app.MapRazorPages();        // mapping routes for Identity Razor pages
 app.MapControllerRoute(
     name: "default",        // set the default url: use Home controller, with action Index
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
