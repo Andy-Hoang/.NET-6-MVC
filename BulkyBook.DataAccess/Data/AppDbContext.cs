@@ -15,6 +15,7 @@ namespace BulkyBook.DataAccess.Data
         // DBSet is like a table in SQL
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder)
 		{
