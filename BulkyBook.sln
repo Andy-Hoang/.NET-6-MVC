@@ -5,19 +5,17 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookWeb", "BulkyBookWeb\BulkyBookWeb.csproj", "{355C82F6-89F0-46B7-994C-6EE107035941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyRazor", "BulkyRazor\BulkyRazor.csproj", "{088DD35B-477D-4344-8055-0F158B5DFB2E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{295225ED-5EFA-41CD-8808-A45D493B4E4A}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.DataAccess", "BulkyBook.DataAccess\BulkyBook.DataAccess.csproj", "{ABB32D91-5201-40BE-B279-15512287D7CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.DataAccess", "BulkyBook.DataAccess\BulkyBook.DataAccess.csproj", "{ABB32D91-5201-40BE-B279-15512287D7CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Models", "BulkyBook.Models\BulkyBook.Models.csproj", "{BC2F31FE-6F83-4290-A42A-7E128B8033DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Models", "BulkyBook.Models\BulkyBook.Models.csproj", "{BC2F31FE-6F83-4290-A42A-7E128B8033DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Utility", "BulkyBook.Utility\BulkyBook.Utility.csproj", "{5149879E-4DDC-44B0-99C0-7AABC7647340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Utility", "BulkyBook.Utility\BulkyBook.Utility.csproj", "{5149879E-4DDC-44B0-99C0-7AABC7647340}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{355C82F6-89F0-46B7-994C-6EE107035941}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355C82F6-89F0-46B7-994C-6EE107035941}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{355C82F6-89F0-46B7-994C-6EE107035941}.Release|Any CPU.Build.0 = Release|Any CPU
-		{088DD35B-477D-4344-8055-0F158B5DFB2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{088DD35B-477D-4344-8055-0F158B5DFB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{088DD35B-477D-4344-8055-0F158B5DFB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{088DD35B-477D-4344-8055-0F158B5DFB2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ABB32D91-5201-40BE-B279-15512287D7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABB32D91-5201-40BE-B279-15512287D7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABB32D91-5201-40BE-B279-15512287D7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -2,6 +2,7 @@ using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository;
 using BulkyBook.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -33,8 +36,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();           //1st Middleware to go to, Routing (order in the pipeline matters)
-
-app.UseAuthorization();     // then 2nd Midleware, Authorization
+app.UseAuthentication();    // then 2nd Midleware, Authentication/ Authorization
+app.UseAuthorization();     
 
 app.MapControllerRoute(
     name: "default",        // set the default url: use Home controller, with action Index

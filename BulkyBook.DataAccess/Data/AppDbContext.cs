@@ -1,9 +1,11 @@
 ﻿using BulkyBook.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook.DataAccess.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext: IdentityDbContext<IdentityUser>
     {
         // base(options): pass "options" -which are passed into subclass AppDbContext- into the base class DbContext by using ":base(options)"
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -16,6 +18,8 @@ namespace BulkyBook.DataAccess.Data
 
         protected override void OnModelCreating (ModelBuilder modelBuilder)
 		{
+            base.OnModelCreating (modelBuilder);        //not sure why this needed. Maybe syntax stuff to use IdentityDbContext
+
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "Scifi", DisplayOrder = 2 },
